@@ -4,8 +4,17 @@ import axios from "axios";
 const Search = () => {
   const [term, setTerm] = useState("programming");
   const [results, setResults] = useState([]);
+  const [debounceTerm, setDebounceTerm] = useState(term);
 
-  //   console.log(results);
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setDebounceTerm(term);
+    }, 1000);
+
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [term]);
 
   useEffect(() => {
     const search = async () => {
@@ -15,15 +24,15 @@ const Search = () => {
           list: "search",
           origin: "*",
           format: "json",
-          srsearch: term,
+          srsearch: debounceTerm,
         },
       });
       setResults(data.query.search);
     };
-    if (term) {
+    if (debounceTerm) {
       search();
     }
-  }, [term]);
+  }, [debounceTerm]);
 
   const onInputChange = (evt) => {
     setTerm(evt.target.value);
@@ -64,5 +73,3 @@ const Search = () => {
 };
 
 export default Search;
-
-// en.wikipedia.org/w/api.php?action=query&list=search&format=json&origin=*&srsearch=programming
