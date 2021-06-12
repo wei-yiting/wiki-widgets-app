@@ -6,6 +6,7 @@ const Accordion = ({ items }) => {
   const onTitleClick = (index) => {
     setActiveIndex(index);
   };
+
   const renderedItems = items.map((item, index) => {
     const activeStatus = index === activeIndex ? "active" : "";
     return (
@@ -21,7 +22,11 @@ const Accordion = ({ items }) => {
     );
   });
 
-  return <div className="ui styled accordion">{renderedItems}</div>;
+  return (
+    <div className="ui styled accordion" style={{ margin: "20px" }}>
+      {renderedItems}
+    </div>
+  );
 };
 
 export default Accordion;
